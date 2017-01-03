@@ -366,6 +366,10 @@ Route::get("admin/add-gateway", "AdminController@addGateway");
 
 Route::get("admin/update-gateway-request", "AdminController@updateGatewayRequest");
 
+// Information services
+// Moab Web Services
+Route::get("mws/jobinfo/{machine_name}/jobstatus", "MWSController@getJobStatus");
+
 /*
 * Theme Pages Routes
 */

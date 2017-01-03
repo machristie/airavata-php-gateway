@@ -18,6 +18,11 @@ if (CommonUtilities::id_in_session()) {
 
 <?php 
 if( Session::get("theme") == "base"){?>
+
+<div id="helloworld"></div>
+
+<div id="jobstatus"></div>
+
 <div class="well">
     <div class="container">
         <h1>PHP Gateway with Airavata</h1>
@@ -133,3 +138,14 @@ else
 ?>
 @stop
 
+@section('scripts')
+@parent
+
+{{ HTML::script('js/react/vendor.bundle.js')}}
+{{ HTML::script('js/react/app.bundle.js')}}
+{{ HTML::script('js/react/jobStatus.bundle.js')}}
+<script>
+
+jobStatus.ReactDOM.render(jobStatus.React.createElement(jobStatus.JobStatusContainer), document.getElementById('jobstatus'));
+</script>
+@stop
