@@ -19,9 +19,7 @@ if (CommonUtilities::id_in_session()) {
 <?php 
 if( Session::get("theme") == "base"){?>
 
-<div id="helloworld"></div>
-
-<div id="jobstatus"></div>
+<div id="systemstatus"></div>
 
 <div class="well">
     <div class="container">
@@ -142,10 +140,10 @@ else
 @parent
 
 {{ HTML::script('js/react/vendor.bundle.js')}}
-{{ HTML::script('js/react/app.bundle.js')}}
-{{ HTML::script('js/react/jobStatus.bundle.js')}}
+{{ HTML::script('js/react/systemStatus.bundle.js')}}
 <script>
 
-jobStatus.ReactDOM.render(jobStatus.React.createElement(jobStatus.JobStatusContainer), document.getElementById('jobstatus'));
+systemStatus.init(["bigred2", "karst"]);
+systemStatus.render(document.getElementById("systemstatus"));
 </script>
 @stop

@@ -3,11 +3,11 @@ const webpack = require('webpack');
 module.exports = {
     entry: {
         app: './src/index.js',
-        jobStatus: './src/jobStatus.js',
+        systemStatus: './src/systemStatus.js',
         vendor: ["react", "react-dom"]
     },
     output: {
-        path: './bin',
+        path: '../public/js/react/',
         filename: '[name].bundle.js',
         libraryTarget: 'var',
         library: "[name]"
@@ -24,6 +24,7 @@ module.exports = {
             loader: 'babel-loader'
         }]
     },
+    // TODO: production react build
     plugins: [
         // new webpack.optimize.UglifyJsPlugin({
         //     compress: {
