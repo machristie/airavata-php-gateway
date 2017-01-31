@@ -53,17 +53,27 @@
 
     <div class="col-md-9">
         <select class="form-control" name="resourceSpecificCredentialStoreToken" >
-            <option value="" @if( isset( $preferences) && $preferences->resourceSpecificCredentialStoreToken == null) selected @endif>
+            <option value="" @if( isset( $preferences) && $preferences->resourceSpecificCredentialStoreToken == null) selected @endif
+                data-token-description="{{{ $defaultCredentialSummary->description }}}">
                 No resource specific SSH key, just use the default one ({{{$defaultCredentialSummary->description}}})
             </option>
             @foreach( $credentialSummaries as $token => $credentialSummary )
             @if( $token != $defaultCredentialSummary->token)
-            <option value="{{$token}}" @if( isset( $preferences) && $token == $preferences->resourceSpecificCredentialStoreToken) selected @endif>
+            <option value="{{$token}}" @if( isset( $preferences) && $token == $preferences->resourceSpecificCredentialStoreToken) selected @endif
+                data-token-description="{{{ $credentialSummary-> description }}}">
                 Use {{{$credentialSummary->description}}}
             </option>
             @endif
             @endforeach
         </select>
+    </div>
+</div>
+<div class="form-group">
+
+    <div class="col-md-9 col-md-offset-3">
+        <button class="btn btn-default user-compute-pref-install-key-show" type="button"
+            data-cr-name="{{{ $computeResource->hostName }}}"
+            data-cr-id="{{{ $computeResource->computeResourceId }}}">Install Key</button>
     </div>
 </div>
 

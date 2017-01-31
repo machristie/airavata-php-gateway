@@ -120,6 +120,43 @@ button.add-user-cr {
         </form>
     </div>
 </div>
+
+{{-- TODO make modal only dismissable if user clicks cancel --}}
+<div class="modal fade" id="install-key-user-compute-preference-dialog" tabindex="-1" role="dialog" aria-labelledby="add-modal"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="text-center">Install Key on <span class="install-key-cr-name"></span></h3>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Enter your password for <span
+                    class="install-key-cr-name"></span>. Then click
+                    <strong>Install</strong> to have this key (<span
+                    class="install-key-token-description"></span>) installed on
+                    <span class="install-key-cr-name"></span>.
+                </p>
+                <form role="form">
+                    <div class="form-group">
+                        <label for="username">Login Username</label>
+                        <input type="username" class="form-control" id="install-key-username" value="" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" id="install-key-password" placeholder="Password">
+                    </div>
+                    <input type="hidden" name="computeResourceId">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="install-key-submit-button" type="button" class="btn btn-primary"
+                    data-ajax-url="{{URL::to('/')}}/account/install-key-user-crp">Install</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
 @stop
 
 @section('scripts')
@@ -145,6 +182,45 @@ $("#add-user-compute-resource-block-container").on("change", "#user-cr-select", 
 $("#add-user-compute-resource-block-container").on("click", ".remove-user-cr", function(){
     $("#add-user-compute-resource-block-container").empty();
 });
+$(".user-compute-pref-install-key-show").click( function() {
+
+    var $form = $(this).closest("form");
+    var username = $form.find("input[name=loginUserName]").val();
+    var selectedCredentialStoreToken = $form.find("select[name=resourceSpecificCredentialStoreToken] option:selected").val();
+    var selectedCredentialStoreTokenDescription = $form.find("select[name=resourceSpecificCredentialStoreToken] option:selected").data("token-description");
+    var computeResourceName = $(this).data("cr-name");
+    var computeResourceId = $(this).data("cr-id");
+
+    $("#install-key-username").val(username);
+    $(".install-key-cr-name").text(computeResourceName);
+    $(".install-key-token-description").text(selectedCredentialStoreTokenDescription);
+    $("#install-key-user-compute-preference-dialog [name=computeResourceId]").val(computeResourceId);
+
+    $("#install-key-user-compute-preference-dialog").modal("show");
+});
+
+$("#install-key-submit-button").click(function(e){
+
+    console.log("clicked on install-key-submit-button");
+    // TODO: save user compute resource preference first
+    var computeResourceId = $("#install-key-user-compute-preference-dialog [name=computeResourceId]").val();
+    var password = $("#install-key-password").val();
+    var url = $(this).data("ajax-url");
+    // TODO put a spinner over the modal
+    $.ajax({
+        url: url,
+        data: {
+            "password": password,
+            "computeResourceId": computeResourceId
+        },
+        dataType: "json",
+        method: "POST"
+    }).then(function(data){
+        console.log(data);
+    }).then(null, function(err){ // catch
+        console.log("Failed to install key", err);
+    });
+})
 
 /* making datetimepicker work for reservation start and end date kept in user-compute-resource-preferences blade*/
 $('.datetimepicker1').datetimepicker({

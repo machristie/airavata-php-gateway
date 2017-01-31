@@ -79,7 +79,7 @@ class URPUtilities
 
     public static function add_or_update_user_CRP($inputs, $update = false)
     {
-        $inputs = Input::all();
+        $inputs = CommonUtilities::convertEmptyStringToNull($inputs);
         if( $inputs["reservationStartTime"] != "")
             $inputs["reservationStartTime"] = CommonUtilities::convertLocalToUTC(strtotime($inputs["reservationStartTime"])) * 1000;
         if( $inputs["reservationEndTime"] != "")
@@ -124,6 +124,13 @@ class URPUtilities
             }
         }
         return $userComputeResourcePreferencesById;
+    }
+
+    public static function install_key_user_CRP($computeResourceId, $password)
+    {
+        $userId = Session::get('username');
+        $gatewayId = Session::get('gateway_id');
+        return Airavata::installKeyForUserComputeResourcePreference(Session::get('authz-token'), $userId, $gatewayId, $computeResourceId, $password);
     }
 
     public static function add_or_update_user_SRP($inputs, $update = false)

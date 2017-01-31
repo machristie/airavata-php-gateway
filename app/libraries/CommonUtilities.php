@@ -101,7 +101,7 @@ class CommonUtilities
     public static function create_nav_bar()
     {
         $menus = array();
-        if  ( Session::has('loggedin') && 
+        if  ( Session::has('loggedin') &&
             ( Session::has('authorized-user') || Session::has('admin') || Session::has('admin-read-only')) &&
               !Session::has("gateway-provider")
             ) {
@@ -122,13 +122,13 @@ class CommonUtilities
             if( isset( Config::get('pga_config.portal')['jira-help']))
             {
                 $menus['Help'] = array();
-                if( Config::get('pga_config.portal')['jira-help']['report-issue-script'] != '' 
+                if( Config::get('pga_config.portal')['jira-help']['report-issue-script'] != ''
                     && Config::get('pga_config.portal')['jira-help']['report-issue-collector-id'] != '')
                 {
                     $menus['Help'][] = array('label' => 'Report Issue', 'url' => '#', "nav-active", "");
-                }  
+                }
     //                array('label' => 'Forgot Password?', 'url' => URL::to('/') . '/forgot-password', "nav-active" => "")
-                if( Config::get('pga_config.portal')['jira-help']['request-feature-script'] != '' 
+                if( Config::get('pga_config.portal')['jira-help']['request-feature-script'] != ''
                     && Config::get('pga_config.portal')['jira-help']['request-feature-collector-id'] != '')
                 {
                     $menus['Help'][] = array('label' => 'Request Feature', 'url' => '#', "nav-active", "");
@@ -157,7 +157,7 @@ class CommonUtilities
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
                     <ul class="nav navbar-nav">';
-            
+
             $navbar .= '<li>
                         <a href="' . URL::to("/") . '">
                             <span class="brand-logo"></span>
@@ -189,7 +189,7 @@ class CommonUtilities
         }
 
         $active = "";
-        if(Session::has('loggedin') && 
+        if(Session::has('loggedin') &&
             (Session::has('authorized-user') || Session::has('admin') || Session::has('admin-read-only')) &&
             !Session::has("gateway-provider")
         ){
@@ -319,22 +319,22 @@ class CommonUtilities
 
                     . $noticesUI;
 
-        
+
         $noticesUI .= '
         </div><div class="slimScrollBar" style=""></div>
 
         <div class="slimScrollRail" style=""></div></div> <!-- / .notifications-list -->';
         if ( Session::has("admin"))
-        {        
+        {
             $noticesUI .= '<a href="' . URL::to('/') . '/admin/dashboard/notices" class="notifications-link">Manage Notifications</a>';
         }
         else
             $noticesUI .= '<a href="#" class="notifications-link"></a>';
-        
+
         $noticesUI .= '</div>'.'</li>';
 
         return $noticesUI;
-    }   
+    }
 
     /**
      * Add attributes to the HTTP header.
@@ -367,8 +367,8 @@ class CommonUtilities
 
     /**
      * Get All Notifications for a gateway
-     * @param 
-     * 
+     * @param
+     *
      */
     public static function get_all_notices(){
         return Airavata::getAllNotifications( Session::get('authz-token'), Session::get("gateway_id"));
@@ -383,7 +383,7 @@ class CommonUtilities
             // Swap order if necessary
             if ($order == 'DESC') {
                 list($a, $b) = array($b, $a);
-            } 
+            }
             // Check data type
             if (is_numeric($a->$key)) {
                 return $a->$key - $b->$key; // compare numeric
@@ -437,6 +437,12 @@ class CommonUtilities
             Log::error("Airavata is down!", array("exception" => $e));
             return false;
         }
+    }
+
+    public static function convertEmptyStringToNull($array) {
+        return array_map(function($value) {
+            return !empty($value) ? $value : null;
+        }, $array);
     }
 }
 

@@ -58,6 +58,7 @@ Route::get("account/user-compute-resources", "UserSettingsController@getComputeR
 Route::post("account/add-user-crp", "UserSettingsController@addUserComputeResourcePreference");
 Route::post("account/update-user-crp", "UserSettingsController@updateUserComputeResourcePreference");
 Route::post("account/delete-user-crp", "UserSettingsController@deleteUserComputeResourcePreference");
+Route::post("account/install-key-user-crp", "UserSettingsController@installKeyForUserComputeResourcePreference");
 
 Route::get("account/user-storage-resources", "UserSettingsController@getStorageResources");
 Route::post("account/add-user-srp", "UserSettingsController@addUserStorageResourcePreference");

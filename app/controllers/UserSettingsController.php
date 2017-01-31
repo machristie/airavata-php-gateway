@@ -110,7 +110,7 @@ class UserSettingsController extends BaseController
 
     public function addUserComputeResourcePreference() {
 
-        if( URPUtilities::add_or_update_user_CRP( Input::all()) )
+        if( URPUtilities::add_or_update_user_CRP( Input::all() ) )
         {
             return Redirect::to("account/user-compute-resources")->with("message","Compute Resource Account Settings have been saved.");
         }
@@ -133,6 +133,19 @@ class UserSettingsController extends BaseController
         }
     }
 
+    public function installKeyForUserComputeResourcePreference() {
+        $computeResourceId = Input::get("computeResourceId");
+        $password = Input::get("password");
+        $result = URPUtilities::install_key_user_CRP($computeResourceId, $password);
+        if( $result )
+        {
+            return Response::json(array("success" => true));
+        }
+        else
+        {
+            return Response::json(array("success" => false));
+        }
+    }
     public function getStorageResources(){
 
         $userResourceProfile = URPUtilities::get_or_create_user_resource_profile();
